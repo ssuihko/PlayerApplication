@@ -1,0 +1,6 @@
+bin/
+.vs/
+obj/
+
+PlayerApplication/appsettings.Development.json
+PlayerApplication/appsettings.json

@@ -6,6 +6,7 @@ namespace PlayerApplication.Repository
     public interface IItemRepository
     {
         Task<IEnumerable<Item>> GetItems(string invId);
+        Task<IEnumerable<Item>> GetAllItems();
         Task<Item?> GetItem(string ItemId, PreloadPolicy preloadPolicy = PreloadPolicy.DoNotPreloadRelations);
         Task<Item?> CreateItem(string name, string description, float price, Inventory inv);
         Task<Item?> DeleteItem(string itemId, PreloadPolicy preloadPolicy = PreloadPolicy.DoNotPreloadRelations);

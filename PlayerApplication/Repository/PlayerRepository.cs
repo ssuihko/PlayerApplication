@@ -2,6 +2,7 @@
 using PlayerApplication.Models;
 using PlayerApplication.Enums;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PlayerApplication.Repository
 {
@@ -35,7 +36,7 @@ namespace PlayerApplication.Repository
 
         public Player? GetPlayerByEmail(string email)
         {
-            return _db.Players.FirstOrDefault(s => s.Email == email);   
+            return _db.Players.FirstOrDefault(s => s.Email == email);
         }
 
 
@@ -57,6 +58,22 @@ namespace PlayerApplication.Repository
             _db.Players.Remove(mv);
 
             return mv;
+        }
+
+        public async Task<Player?> DropItemFromInventory(Player player, Item item, PreloadPolicy preloadPolicy = PreloadPolicy.DoNotPreloadRelations)
+        {
+            
+            // get the 'world' inventory
+            Inventory? inv = _db.Inventories.FirstOrDefault(x => x.Id == "00dfbbf1-b1bc-4f52-be8a-c23dbb628108");
+            if (inv == null) 
+            {
+                return null;
+            }
+
+            inv.Items.Add(item);
+            player.Inventory.Items.Remove(item);
+            return player;
+            
         }
 
 

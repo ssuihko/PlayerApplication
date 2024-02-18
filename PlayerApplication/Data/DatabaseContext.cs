@@ -43,6 +43,8 @@ namespace PlayerApplication.Data
             string pli1 = Guid.NewGuid().ToString();
             string pli2 = Guid.NewGuid().ToString();
 
+            Item wit1 = new Item { Id = Guid.NewGuid().ToString(), InventoryId = wi, Name = "Green herb", Description = "Heals 3 hp", Price = 2.5F };
+
 
             Item it1 = new Item { Id = Guid.NewGuid().ToString(), InventoryId = g1,  Name = "Small Healing Potion", Description = "Heals 5 hp", Price = 2.5F };
             Item it2 = new Item { Id = Guid.NewGuid().ToString(), InventoryId = g1, Name = "Large Healing Potion", Description = "Heals 20 hp", Price = 10.0F };
@@ -52,7 +54,7 @@ namespace PlayerApplication.Data
             Item it5 = new Item { Id = Guid.NewGuid().ToString(), InventoryId = pli1, Name = "Small Healing Potion", Description = "Heals 5 hp", Price = 2.5F };
             Item it6 = new Item { Id = Guid.NewGuid().ToString(), InventoryId = pli2, Name = "Large Healing Potion", Description = "Heals 20 hp", Price = 10.0F };
 
-            modelBuilder.Entity<Item>().HasData( it1, it2, it3, it4, it5, it6 );
+            modelBuilder.Entity<Item>().HasData( wit1, it1, it2, it3, it4, it5, it6 );
 
             // inventories
             Inventory worldinv = new Inventory { Id = wi };
@@ -61,7 +63,7 @@ namespace PlayerApplication.Data
             Inventory pl1inv = new Inventory { Id = pli1 };
             Inventory pl2inv = new Inventory { Id = pli2 };
 
-            modelBuilder.Entity<Inventory>().HasData(inv1, inv2, pl1inv, pl2inv);
+            modelBuilder.Entity<Inventory>().HasData(inv1, inv2, pl1inv, pl2inv, worldinv);
 
 
             // shops

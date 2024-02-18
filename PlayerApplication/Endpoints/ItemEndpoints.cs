@@ -22,7 +22,8 @@ namespace PlayerApplication.Endpoints
             var gameGroup = app.MapGroup("items");
 
             gameGroup.MapPost("/", CreateItem);
-            gameGroup.MapGet("/", GetItems);
+            gameGroup.MapGet("/inventory/{invId}", GetItemsFromInventory);
+            gameGroup.MapGet("/", GetAllItems);
             gameGroup.MapGet("/{Id}", GetItem);
             gameGroup.MapPut("/{Id}", UpdateItem);
             gameGroup.MapDelete("/{Id}", DeleteItem);
@@ -32,10 +33,29 @@ namespace PlayerApplication.Endpoints
     
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize()]
-        public static async Task<IResult> GetItems(string invId, IItemRepository repository)
+        public static async Task<IResult> GetItemsFromInventory(string invId, IItemRepository repository)
         {
 
             var res = await repository.GetItems(invId);
+
+            List<ItemDTO> reslist = new List<ItemDTO>();
+
+            foreach (Item msg in res)
+            {
+                ItemDTO dt = new ItemDTO(msg);
+
+                reslist.Add(dt);
+            }
+
+            return TypedResults.Ok(reslist);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(Roles = "Admin")]
+        public static async Task<IResult> GetAllItems(IItemRepository repository)
+        {
+
+            var res = await repository.GetAllItems();
 
             List<ItemDTO> reslist = new List<ItemDTO>();
 

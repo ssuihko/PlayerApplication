@@ -63,6 +63,13 @@ namespace PlayerApplication.Repository
             {
                 return null;
             }
+
+            if (item.Price > player.Money)
+            {
+                return null;
+            }
+
+            player.Money = player.Money - item.Price;
      
             player.Inventory.Items.Add(item);
             shop.Inventory.Items.Remove(item);

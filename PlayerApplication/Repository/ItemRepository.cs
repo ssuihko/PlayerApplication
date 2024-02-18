@@ -19,6 +19,11 @@ namespace PlayerApplication.Repository
             return await _db.Items.Where(x => x.InventoryId == invId).ToListAsync();
         }
 
+        public async Task<IEnumerable<Item>> GetAllItems()
+        {
+            return await _db.Items.ToListAsync();
+        }
+
         public async Task<Item?> GetItem(string ItemId, PreloadPolicy preloadPolicy = PreloadPolicy.DoNotPreloadRelations)
         {
             switch (preloadPolicy)

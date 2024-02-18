@@ -14,7 +14,9 @@ namespace PlayerApplication.Repository
         Task<IEnumerable<Player>> GetPlayers();
 
         Task<Player?> DeletePlayer(string playerId, PreloadPolicy preloadPolicy = PreloadPolicy.DoNotPreloadRelations);
-       
+
+        Task<Player?> DropItemFromInventory(Player player, Item item, PreloadPolicy preloadPolicy = PreloadPolicy.DoNotPreloadRelations);
+
         public void SaveChanges();
     }
 }

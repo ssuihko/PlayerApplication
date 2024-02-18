@@ -23,6 +23,7 @@ namespace PlayerApplication.Endpoints
 
             gameGroup.MapGet("/", GetPlayers);
             gameGroup.MapGet("/{Id}", GetPlayer);
+            gameGroup.MapGet("/{Id}/inventory/{invId}", DropItem);
             gameGroup.MapDelete("/{Id}", DeletePlayer);
             
         }
@@ -85,6 +86,44 @@ namespace PlayerApplication.Endpoints
             }
 
             var PlayerDTO = new PlayerDTO(Player);
+
+            repository.SaveChanges();
+
+            return TypedResults.Ok(PlayerDTO);
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize()]
+        public static async Task<IResult> DropItem(string itemId, IPlayerRepository repository, ClaimsPrincipal user)
+        {
+
+            var email = user.UserEmail();
+
+            if (email == null)
+            {
+                return Results.Unauthorized();
+            }
+
+
+            Player? player = repository.GetPlayerInventory(email);
+       
+            if (player == null)
+            {
+                return Results.NotFound("Player not found");
+            }
+
+            Item? item = player.Inventory.Items.FirstOrDefault(x => x.Id == itemId);
+
+            if (item == null)
+            {
+                return Results.NotFound("Item not found in inventory");
+            }
+
+            var inv = repository.DropItemFromInventory(player, item);
+
+            var PlayerDTO = new PlayerDTO(player);
 
             repository.SaveChanges();
 

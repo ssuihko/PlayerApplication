@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +11,6 @@ using PlayerApplication.Services;
 using PlayerApplication.Data;
 using PlayerApplication.Endpoints;
 using PlayerApplication.Models;
-using Microsoft.AspNetCore.Authentication;
 
 
 var builder = WebApplication.CreateBuilder(args);
